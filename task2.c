@@ -3,8 +3,9 @@
 #include <time.h>
 #include <string.h>
 #include <stdlib.h>
+//Перечисление - пользовательский тип данных для обозначения месяцев.
 enum month_e{Jan = 1, Feb, Mar, Apr, May, Jun, Jul, Aug, Sept, Oct, Nov, Dec};
-
+//Структура, определяющая дату рождения, которая хранит день, месяц, год, час, минуту рождения.
 typedef struct _date_of_birth
 {
 	int day;
@@ -144,11 +145,13 @@ BOOL validate_str_date_of_birth(char* birthday)
 	int length = 16;
 	int i = 0;
 	if(strlen(birthday)!=length)
+	{
 		return FALSE;
-
+	}
 	if(birthday[2]!='.'||birthday[5]!='.'||birthday[10]!=' '||birthday[13]!=':')
+	{
 		return FALSE;
-
+	}
 	for(i = 0; i<length; i++)
 	{
 		if((birthday[i]>'9'||birthday[i]<'0')&&(i!=2)&&(i!=5)&&(i!=10)&&(i!=13))
@@ -203,35 +206,35 @@ long long count_in_seconds(date_of_birth users_birthday, time_t curr_time)
 		{
 			from_year_beg_user += 31*24*60*60;
 		}
-				i++;
+		i++;
 	}
 
-		//годы между
-		i_0 = users_birthday.year/4;
-		if(users_birthday.year%4==0)
-			i_0--;
-		i_1 = (curr_time_struct->tm_year-1+min_year)/4;
-		numb_vis= i_1-i_0;
+	//годы между
+	i_0 = users_birthday.year/4;
+	if(users_birthday.year%4==0)
+		i_0--;
+	i_1 = (curr_time_struct->tm_year-1+min_year)/4;
+	numb_vis= i_1-i_0;
 
-		i_0  = users_birthday.year/100;
-		if(users_birthday.year%100==0)
-			i_0--;
-		//текущий год учитываем не полностью - 1
-		//год рождения - полностью, отнимая не прожитое в нём время
-		i_1 = (curr_time_struct->tm_year-1+min_year)/100;
-		numb_vis = numb_vis-(i_1-i_0);
-		i_0  = users_birthday.year/400;
-		if(users_birthday.year%400==0)
-			i_0--;
-		i_1 = (curr_time_struct->tm_year-1+min_year)/400;
-		numb_vis = numb_vis+(i_1-i_0);
-		numb_not_vis = (curr_time_struct->tm_year+min_year - users_birthday.year) - numb_vis;
-		seconds = 0;
-		seconds += 366*numb_vis*24*60*60;
-		seconds += 365*numb_not_vis*24*60*60;
-		seconds += from_year_beg_curr;
-		seconds -= from_year_beg_user;
-		return seconds;
+	i_0  = users_birthday.year/100;
+	if(users_birthday.year%100==0)
+	i_0--;
+	//текущий год учитываем не полностью - 1
+	//год рождения - полностью, отнимая не прожитое в нём время
+	i_1 = (curr_time_struct->tm_year-1+min_year)/100;
+	numb_vis = numb_vis-(i_1-i_0);
+	i_0  = users_birthday.year/400;
+	if(users_birthday.year%400==0)
+		i_0--;
+	i_1 = (curr_time_struct->tm_year-1+min_year)/400;
+	numb_vis = numb_vis+(i_1-i_0);
+	numb_not_vis = (curr_time_struct->tm_year+min_year - users_birthday.year) - numb_vis;
+	seconds = 0;
+	seconds += 366*numb_vis*24*60*60;
+	seconds += 365*numb_not_vis*24*60*60;
+	seconds += from_year_beg_curr;
+	seconds -= from_year_beg_user;
+	return seconds;
 
 }
 int main()
@@ -264,7 +267,7 @@ int main()
 				if(validate_date_of_birth(*users_birthday, curr_time))
 				{
 					long long age_in_seconds = count_in_seconds(*users_birthday,curr_time);
-					printf("\nAge in seconds: %lld\n",age_in_seconds);
+					print("Age in seconds: %lld\n",age_in_seconds);
 					end = TRUE;
 					break;
 				}
